@@ -1,3 +1,3 @@
 window.PORTFOLIO_CONFIG = {
-  apiBaseUrl: "http://127.0.0.1:5000",
+  apiBaseUrl: "https://my-portfolio-p3v3.onrender.com",
 };
