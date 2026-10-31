@@ -7,3 +7,4 @@ instance/
 .env
 .env.*
 !.env.example
+!.env.render.example
