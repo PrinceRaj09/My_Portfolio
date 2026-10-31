@@ -607,6 +607,7 @@ h1, h2, h3 { font-family: var(--font-display); }
 .project-empty { grid-column: 1 / -1; padding: 32px; border: 1px dashed var(--line); border-radius: 9px; color: var(--muted); text-align: center; }
 .case-studies-section { padding-top: 90px; }
 .case-studies-section .section-heading { margin-bottom: 25px; }
+.featured-live-project .project-grid { grid-template-columns: minmax(0, 1fr); max-width: 720px; }
 .contact-page .contact-card { margin-bottom: 40px; }
 .form-privacy-note { margin: 5px 0 0; color: var(--faint); font-size: 9px; line-height: 1.7; }
 #form-status[data-state="success"] { color: var(--cyan); }

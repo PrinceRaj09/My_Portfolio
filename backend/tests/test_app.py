@@ -55,6 +55,13 @@ class PortfolioApiTests(unittest.TestCase):
                 self.assertTrue((frontend / page).is_file())
         self.assertEqual(self.client.get("/").status_code, 404)
 
+    def test_projects_page_links_to_draw_party_live_app(self):
+        projects_page = Path(__file__).resolve().parents[2] / "frontend" / "projects.html"
+        content = projects_page.read_text(encoding="utf-8")
+
+        self.assertIn("Draw Party", content)
+        self.assertIn('href="https://draw-party-six.vercel.app/"', content)
+
     def test_github_repositories_endpoint_returns_live_profile_data_and_cors(self):
         repositories = [
             {

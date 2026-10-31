@@ -113,14 +113,15 @@ function renderRepositories() {
 
 async function loadRepositories() {
   try {
-    const response = await fetch(`${projectsApiBaseUrl}/api/github/repos`);
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.error || "GitHub data is temporarily unavailable.");
+    const result = await window.fetchPortfolioGithubData(projectsApiBaseUrl);
     repositories = result.repositories.filter((repository) => !repository.archived);
     const profile = result.profile;
     document.querySelector("#github-repo-count").textContent = profile.public_repos;
     document.querySelector("#github-follower-count").textContent = profile.followers;
-    document.querySelector("#project-status").textContent = `${repositories.length} live public repositories · refreshed every 5 minutes`;
+    const refreshStatus = result.source === "github"
+      ? "loaded directly from GitHub"
+      : "refreshed every 5 minutes";
+    document.querySelector("#project-status").textContent = `${repositories.length} live public repositories · ${refreshStatus}`;
     renderRepositories();
   } catch (error) {
     projectStatus.textContent = error instanceof Error

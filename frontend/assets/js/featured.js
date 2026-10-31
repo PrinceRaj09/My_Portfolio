@@ -1,6 +1,6 @@
 const featuredApiBaseUrl = (window.PORTFOLIO_CONFIG?.apiBaseUrl || "").replace(/\/+$/, "");
 const featuredProjects = document.querySelector("#featured-repos");
-const featuredRepositoryNames = ["DrawParty", "Smart_Weather_Alert", "Currency-Converter"];
+const featuredRepositoryNames = ["Smart_Weather_Alert", "Currency-Converter"];
 
 function addFeaturedText(parent, tag, className, value) {
   const element = document.createElement(tag);
@@ -10,16 +10,34 @@ function addFeaturedText(parent, tag, className, value) {
   return element;
 }
 
+function addDrawPartyProject(parent) {
+  const card = document.createElement("article");
+  card.className = "featured-repo-card reveal revealed";
+  addFeaturedText(card, "span", "featured-repo-index", "LIVE APP / 01");
+  addFeaturedText(card, "span", "featured-repo-icon", "DP");
+  addFeaturedText(card, "h3", "", "Draw Party");
+  addFeaturedText(card, "p", "featured-repo-description", "A browser-based party game. Visit the live app to explore and play.");
+  const metadata = document.createElement("div");
+  metadata.className = "featured-repo-meta";
+  addFeaturedText(metadata, "span", "", "Live web app");
+  addFeaturedText(metadata, "span", "", "Vercel");
+  card.append(metadata);
+  const link = addFeaturedText(card, "a", "repository-link", "Play Draw Party ↗");
+  link.href = "https://draw-party-six.vercel.app/";
+  link.target = "_blank";
+  link.rel = "noreferrer";
+  parent.append(card);
+}
+
 async function loadFeaturedProjects() {
   try {
-    const response = await fetch(`${featuredApiBaseUrl}/api/github/repos`);
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.error || "GitHub projects are temporarily unavailable.");
+    const result = await window.fetchPortfolioGithubData(featuredApiBaseUrl);
 
     const repositories = featuredRepositoryNames
       .map((name) => result.repositories.find((repository) => repository.name.toLowerCase() === name.toLowerCase()))
       .filter((repository) => repository && !repository.archived);
     featuredProjects.replaceChildren();
+    addDrawPartyProject(featuredProjects);
 
     repositories.forEach((repository, index) => {
       const card = document.createElement("article");
@@ -50,6 +68,7 @@ async function loadFeaturedProjects() {
     }
   } catch (error) {
     featuredProjects.replaceChildren();
+    addDrawPartyProject(featuredProjects);
     addFeaturedText(
       featuredProjects,
       "p",

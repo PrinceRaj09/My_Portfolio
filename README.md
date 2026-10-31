@@ -32,7 +32,7 @@ Open `http://127.0.0.1:5173`. The frontend configuration defaults to the local A
 
 ## Live profiles and projects
 
-The projects page requests public repositories and profile counts from GitHub's REST API. Results are cached by the backend for five minutes and new public repositories appear automatically after the next refresh. GitHub's anonymous API rate limits apply.
+The projects page requests public repositories and profile counts from GitHub's REST API. Results are cached by the backend for five minutes and new public repositories appear automatically after the next refresh. If the backend is unavailable, the frontend requests the same public data directly from GitHub. GitHub's anonymous API rate limits apply.
 
 The portfolio also requests public LeetCode solved-count and ranking data. LeetCode does not provide a stable, documented public profile API; this integration uses its publicly accessible GraphQL query and may stop working if that service changes. The page shows an availability message rather than inventing statistics when the request fails.
 
