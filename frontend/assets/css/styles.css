@@ -453,10 +453,6 @@ h1, h2, h3 { font-family: var(--font-display); }
   .hero-actions { align-items: flex-start; flex-direction: column; gap: 13px; }
   .social-row { gap: 11px; }
   .social-link { font-size: 10px; }
-  .resume-panel { grid-template-columns: auto minmax(0, 1fr); gap: 18px; margin-top: 42px; padding: 20px; }
-  .resume-panel-icon { width: 58px; height: 58px; font-size: 19px; }
-  .resume-panel-copy h2 { font-size: 23px; }
-  .resume-panel-actions { grid-column: 1 / -1; flex-direction: row; align-items: center; justify-content: space-between; }
   .hero-art { height: 325px; transform: scale(.73); }
   .filter-button { font-size: 10px; }
   .project-meta h3 { font-size: 16px; }
@@ -654,4 +650,8 @@ h1, h2, h3 { font-family: var(--font-display); }
   .projects-page .project-filters { flex-wrap: nowrap; }
   .github-project-card .project-meta h3 { font-size: 17px; }
   .case-studies-section { padding-top: 62px; }
+  .resume-panel { grid-template-columns: auto minmax(0, 1fr); gap: 18px; margin-top: 42px; padding: 20px; }
+  .resume-panel-icon { width: 58px; height: 58px; font-size: 19px; }
+  .resume-panel-copy h2 { font-size: clamp(21px, 6vw, 24px); }
+  .resume-panel-actions { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
 }
