@@ -1,0 +1,18 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run Prince Portfolio (frontend + backend)",
+			"type": "shell",
+			"command": "powershell.exe",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"$python = (Get-Command python.exe).Source; $backend = Start-Process -FilePath $python -ArgumentList @('app.py') -WorkingDirectory 'C:\\Users\\user\\OneDrive\\Desktop\\Prince_Portfolio\\backend' -WindowStyle Hidden -PassThru; $frontend = Start-Process -FilePath $python -ArgumentList @('-m','http.server','5173') -WorkingDirectory 'C:\\Users\\user\\OneDrive\\Desktop\\Prince_Portfolio\\frontend' -WindowStyle Hidden -PassThru; $ready = $false; for ($attempt = 0; $attempt -lt 30; $attempt++) { Start-Sleep -Seconds 1; try { $api = Invoke-WebRequest -Uri 'http://127.0.0.1:5000/api/health' -UseBasicParsing -TimeoutSec 2; $site = Invoke-WebRequest -Uri 'http://127.0.0.1:5173/' -UseBasicParsing -TimeoutSec 2; if ($api.StatusCode -eq 200 -and $site.StatusCode -eq 200) { $ready = $true; break } } catch {} }; if (-not $ready) { Stop-Process -Id $backend.Id -ErrorAction SilentlyContinue; Stop-Process -Id $frontend.Id -ErrorAction SilentlyContinue; throw 'Portfolio servers did not become ready. Check Python dependencies and ports 5000/5173.' }; Write-Output 'Frontend: http://127.0.0.1:5173'; Write-Output 'Backend health: http://127.0.0.1:5000/api/health'; Write-Output \"Backend PID: $($backend.Id); frontend PID: $($frontend.Id)\""
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}
