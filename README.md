@@ -49,8 +49,9 @@ To turn on Gmail notifications, create a Google App Password and put it only in 
 1. Deploy `frontend/` as a static site. Configure `apiBaseUrl` in `frontend/assets/js/config.js` with the deployed backend base URL (no trailing slash).
 2. Deploy `backend/` to a Python host, install `requirements.txt`, and run `gunicorn --workers 2 --bind 0.0.0.0:$PORT app:app`.
 3. In Render, set the web service's root directory to `backend`. Add the variables from [`backend/.env.render.example`](backend/.env.render.example) under **Dashboard → Environment**. Replace the Vercel URL in `FRONTEND_ORIGINS` with the actual frontend URL. Set `DATABASE_URL` to a persistent PostgreSQL connection string if contact messages must survive service restarts; Render's local filesystem is not persistent by default.
-4. Add private SMTP credentials such as `MAIL_PASSWORD` only in Render's Environment dashboard. Never commit real `.env` files or passwords.
-5. Verify `GET /api/health`, `GET /api/github/repos`, and `GET /api/leetcode/stats` on the deployed backend.
+4. If GitHub repository requests are rate-limited, create a fine-grained GitHub token with read-only access to public repositories and set it as `GITHUB_TOKEN` in Render. Never commit this token.
+5. Add private SMTP credentials such as `MAIL_PASSWORD` only in Render's Environment dashboard. Never commit real `.env` files or passwords.
+6. Verify `GET /api/health`, `GET /api/github/repos`, and `GET /api/leetcode/stats` on the deployed backend.
 
 The API also exposes `POST /api/contact`, accepting JSON fields `name`, `email`, and `message`. It does not expose a public endpoint for reading stored messages.
 

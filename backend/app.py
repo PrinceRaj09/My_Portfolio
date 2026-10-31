@@ -322,12 +322,17 @@ def cached_public_json(
 
 
 def fetch_public_json(url: str) -> Any:
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "PrinceRajPortfolio",
+    }
+    github_token = os.environ.get("GITHUB_TOKEN")
+    if github_token:
+        headers["Authorization"] = f"Bearer {github_token}"
+
     response = requests.get(
         url,
-        headers={
-            "Accept": "application/vnd.github+json",
-            "User-Agent": "PrinceRajPortfolio",
-        },
+        headers=headers,
         timeout=12,
     )
     response.raise_for_status()

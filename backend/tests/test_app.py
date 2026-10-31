@@ -2,11 +2,11 @@ import sqlite3
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import requests
 
-from app import ContactMessage, ContactNotification, create_app, db
+from app import ContactMessage, ContactNotification, create_app, db, fetch_public_json
 
 
 class PortfolioApiTests(unittest.TestCase):
@@ -93,6 +93,21 @@ class PortfolioApiTests(unittest.TestCase):
         self.assertEqual(
             response.headers["Access-Control-Allow-Origin"],
             "https://portfolio.example",
+        )
+
+    def test_github_requests_use_optional_token_for_rate_limit_headroom(self):
+        response = Mock()
+        response.json.return_value = {"login": "PrinceRaj09"}
+        with (
+            patch.dict("os.environ", {"GITHUB_TOKEN": "test-token"}),
+            patch("app.requests.get", return_value=response) as get_request,
+        ):
+            result = fetch_public_json("https://api.github.com/users/PrinceRaj09")
+
+        self.assertEqual(result, {"login": "PrinceRaj09"})
+        self.assertEqual(
+            get_request.call_args.kwargs["headers"]["Authorization"],
+            "Bearer test-token",
         )
 
     def test_leetcode_stats_endpoint_returns_profile_summary(self):
